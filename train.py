@@ -1,4 +1,4 @@
-import os.path as osp
+
 
 from common import *
 from dataset import MnistDataset
@@ -29,6 +29,8 @@ def main():
 
             # train generator
             g.train(d, generate_random_seed(100), random_label, torch.FloatTensor([1.0]))
+
+    torch.save({'state_dict': g.state_dict()}, osp.join(PRJ_DIR, 'model.pth'))
 
 
 if __name__ == '__main__':

@@ -1,5 +1,4 @@
-
-
+from tqdm import tqdm
 from common import *
 from dataset import MnistDataset
 from discriminator import Discriminator
@@ -12,11 +11,10 @@ def main():
     d = Discriminator()
     g = Generator()
 
-    epochs = 12
+    epochs = 20
     for epoch in range(epochs):
         print("epoch = ", epoch + 1)
-
-        for label, image_data_tensor, label_tensor in mnist_dataset:
+        for label, image_data_tensor, label_tensor in tqdm(mnist_dataset):
             # train discriminator on true
             d.train(image_data_tensor, label_tensor, torch.FloatTensor([1.0]))
 

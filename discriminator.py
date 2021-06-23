@@ -47,8 +47,8 @@ class Discriminator(nn.Module):
         self.counter += 1
         if self.counter % 10 == 0:
             self.progress.append(loss.item())
-        if self.counter % 10000 == 0:
-            print("counter = ", self.counter)
+        # if self.counter % 10000 == 0:
+        #     print("counter = ", self.counter)
 
         # zero gradients, perform a backward pass, update weights
         self.optimiser.zero_grad()

@@ -28,7 +28,7 @@ def main():
     start_epoch = 0
 
     if args.resume is not None:
-        checkpoint = torch.load(osp.join(MODEL_DIR, args.resume))
+        checkpoint = torch.load(osp.join(MODEL_DIR, '{}.pth'.format(args.resume)))
         start_epoch = checkpoint['epoch'] + 1
         d.model.load_state_dict(checkpoint['d_model'])
         g.model.load_state_dict(checkpoint['g_model'])

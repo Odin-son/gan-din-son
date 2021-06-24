@@ -3,7 +3,7 @@ import os.path as osp
 import torch
 import random
 
-PRJ_DIR = osp.dirname(__file__)
+PRJ_DIR = osp.dirname(osp.dirname(osp.dirname(__file__)))
 DATA_DIR = osp.join(PRJ_DIR, '../../dataset')
 
 

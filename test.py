@@ -8,9 +8,11 @@ from src.core.archs.generator import MnistGenerator
 
 
 def main():
+
+    model_list = [osp.splitext(ele)[0] for ele in sorted(os.listdir(MODEL_DIR)) if ele.endswith('.pth')]
+
     parser = argparse.ArgumentParser(description='parameters')
-    parser.add_argument('--model', type=str,
-                        choices=[osp.splitext(ele)[0] for ele in sorted(os.listdir(MODEL_DIR)) if ele.endswith('.pth')],
+    parser.add_argument('--model', type=str, choices=model_list, help='choose from {}'.format(model_list),
                         required=True)
     parser.add_argument('--label', type=int, default=0, help='enter the label for the test.(Type:int, default : 0)')
     args = parser.parse_args()
@@ -18,7 +20,7 @@ def main():
     label = args.label
 
     model = MnistGenerator()
-    model_file = osp.join(PRJ_DIR, 'models/model.pth')
+    model_file = osp.join(MODEL_DIR, '{}.pth'.format(args.model))
 
     # loaded check pt;point
     loaded_check_pt = torch.load(model_file)

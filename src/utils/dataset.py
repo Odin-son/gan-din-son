@@ -4,6 +4,7 @@ import pandas
 from torch.utils.data import Dataset
 import matplotlib.pyplot as plt
 
+
 class MnistDataset(Dataset):
 
     def __init__(self, csv_file):

@@ -1,18 +1,23 @@
 import argparse
 import matplotlib.pyplot as plt
+import os
+import os.path as osp
 
 from src.utils.common import *
-from src.core.arch.generator import Generator
+from src.core.archs.generator import MnistGenerator
 
 
 def main():
     parser = argparse.ArgumentParser(description='parameters')
+    parser.add_argument('--model', type=str,
+                        choices=[osp.splitext(ele)[0] for ele in sorted(os.listdir(MODEL_DIR)) if ele.endswith('.pth')],
+                        required=True)
     parser.add_argument('--label', type=int, default=0, help='enter the label for the test.(Type:int, default : 0)')
     args = parser.parse_args()
 
     label = args.label
 
-    model = Generator()
+    model = MnistGenerator()
     model_file = osp.join(PRJ_DIR, 'models/model.pth')
 
     # loaded check pt;point

@@ -1,7 +1,5 @@
 import argparse
 import matplotlib.pyplot as plt
-import os
-import os.path as osp
 
 from src.utils.common import *
 from src.core.archs.generator import MnistGenerator

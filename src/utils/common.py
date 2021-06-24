@@ -1,4 +1,5 @@
 # functions to generate random data
+import os
 import os.path as osp
 import torch
 import random

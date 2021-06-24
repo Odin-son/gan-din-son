@@ -23,7 +23,7 @@ class MnistDiscriminator(nn.Module):
         self.loss_function = nn.BCELoss()
 
         # create optimiser, simple stochastic gradient descent
-        self.optimiser = torch.optim.Adam(self.parameters(), lr=0.0001)
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=0.0001)
 
         # counter and accumulator for progress
         self.counter = 0
@@ -50,9 +50,9 @@ class MnistDiscriminator(nn.Module):
         #     print("counter = ", self.counter)
 
         # zero gradients, perform a backward pass, update weights
-        self.optimiser.zero_grad()
+        self.optimizer.zero_grad()
         loss.backward()
-        self.optimiser.step()
+        self.optimizer.step()
 
     def plot_progress(self):
         df = pandas.DataFrame(self.progress, columns=['loss'])

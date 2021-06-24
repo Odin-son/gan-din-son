@@ -6,6 +6,9 @@
 
 #### Installation
 ```angular2html
+$ # in case of CUDA 10.2,
+$ # conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.2 -c pytorch
+$ # in case of CUDA 11.0,
 $ conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=11.0 -c pytorch -c conda-forge
 $ pip install pandas matplotlib 
 ```

@@ -4,7 +4,7 @@ import torch
 import random
 
 PRJ_DIR = osp.dirname(__file__)
-DATA_DIR = osp.join(PRJ_DIR, 'dataset')
+DATA_DIR = osp.join(PRJ_DIR, '../../dataset')
 
 
 def generate_random_image(size):

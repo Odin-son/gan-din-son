@@ -1,8 +1,8 @@
 from tqdm import tqdm
-from common import *
-from dataset import MnistDataset
-from discriminator import Discriminator
-from generator import Generator
+from src.utils.common import *
+from src.utils.dataset import MnistDataset
+from src.core.arch.discriminator import Discriminator
+from src.core.arch.generator import Generator
 
 
 def main():
@@ -28,7 +28,7 @@ def main():
             # train generator
             g.train(d, generate_random_seed(100), random_label, torch.FloatTensor([1.0]))
 
-    torch.save({'state_dict': g.state_dict()}, osp.join(PRJ_DIR, 'model.pth'))
+    torch.save({'state_dict': g.state_dict()}, osp.join(PRJ_DIR, 'models/model.pth'))
 
 
 if __name__ == '__main__':

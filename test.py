@@ -1,8 +1,8 @@
 import argparse
 import matplotlib.pyplot as plt
 
-from common import *
-from generator import Generator
+from src.utils.common import *
+from src.core.arch.generator import Generator
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
     label = args.label
 
     model = Generator()
-    model_file = osp.join(PRJ_DIR, 'model.pth')
+    model_file = osp.join(PRJ_DIR, 'models/model.pth')
 
     # loaded check pt;point
     loaded_check_pt = torch.load(model_file)

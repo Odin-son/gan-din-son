@@ -2,7 +2,7 @@ import argparse
 import matplotlib.pyplot as plt
 
 from src.utils.common import *
-from src.core.archs.generator import MnistGenerator
+from src.core.archs.generator import MnistGenerator, CelebAGenerator
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
 
     label = args.label
 
-    model = MnistGenerator()
+    model = CelebAGenerator()
     model_file = osp.join(MODEL_DIR, '{}.pth'.format(args.model))
 
     # loaded check pt;point

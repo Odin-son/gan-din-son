@@ -61,6 +61,12 @@ def main():
                     'd_optimizer': d.optimizer.state_dict(),
                     'g_optimizer': g.optimizer.state_dict()
                     }, osp.join(PRJ_DIR, 'models/latest_model.pth'))
+    torch.save({'epoch': epoch,
+                'd_model': d.model.state_dict(),
+                'g_model': g.model.state_dict(),
+                'd_optimizer': d.optimizer.state_dict(),
+                'g_optimizer': g.optimizer.state_dict()
+                }, osp.join(PRJ_DIR, 'models/celeb_{}.pth'.format(epoch)))
 
 
 if __name__ == '__main__':

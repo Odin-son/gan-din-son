@@ -27,27 +27,24 @@ def main():
     ckpt_dict = {}
 
     # in case that training on deeplab repo.
-    if 'state_dict' in loaded_check_pt.keys():
-        loaded_check_pt = loaded_check_pt['state_dict']
+    if 'g_model' in loaded_check_pt.keys():
+        loaded_check_pt = loaded_check_pt['g_model']
 
     for item in loaded_check_pt.items():
         if item[0][:7] == "module.":
             new_key = item[0][7:]
         else:
-            new_key = item[0]
+            new_key = "model."+item[0]
 
         ckpt_dict[new_key] = item[1]
 
     model.load_state_dict(ckpt_dict)
 
-    label_tensor = torch.zeros(10)
-    label_tensor[label] = 1.0
-
     f, axarr = plt.subplots(2, 3, figsize=(16, 8))
     for i in range(2):
         for j in range(3):
-            output = model.forward(generate_random_seed(100), label_tensor)
-            img = output.detach().numpy().reshape(28, 28)
+            output = model.forward(generate_random_seed(100))
+            img = output.detach().permute(0,2,3,1).view(128,128,3).numpy()
             axarr[i, j].imshow(img, interpolation='none', cmap='Blues')
     plt.show()
 

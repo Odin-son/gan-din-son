@@ -1,8 +1,11 @@
 import torch
 import pandas
+import h5py
+import numpy as np
+import matplotlib.pyplot as plt
 
 from torch.utils.data import Dataset
-import matplotlib.pyplot as plt
+from src.utils.common import crop_centre
 
 
 class MnistDataset(Dataset):
@@ -30,3 +33,27 @@ class MnistDataset(Dataset):
         img = self.data_df.iloc[index, 1:].values.reshape(28, 28)
         plt.title("label = " + str(self.data_df.iloc[index, 0]))
         plt.imshow(img, interpolation='none', cmap='Blues')
+
+
+class CelebADataset(Dataset):
+
+    def __init__(self, file):
+        self.file_object = h5py.File(file, 'r')
+        self.dataset = self.file_object['img_align_celeba']
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, index):
+        if index >= len(self.dataset):
+            raise IndexError()
+        img = np.array(self.dataset[str(index) + '.jpg'])
+        # crop to 128x128 square
+        img = crop_centre(img, 128, 128)
+        return torch.cuda.FloatTensor(img).permute(2, 0, 1).view(1, 3, 128, 128) / 255.0
+
+    def plot_image(self, index):
+        img = np.array(self.dataset[str(index) + '.jpg'])
+        # crop to 128x128 square
+        img = crop_centre(img, 128, 128)
+        plt.imshow(img, interpolation='nearest')

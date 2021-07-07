@@ -1,11 +1,10 @@
 import argparse
-import src.core.archs as archs
 
 from tqdm import tqdm
 from src.utils.common import *
-from src.utils.dataset import MnistDataset
-from src.core.archs.discriminator import MnistDiscriminator
-from src.core.archs.generator import MnistGenerator
+from src.utils.dataset import MnistDataset, CelebADataset
+from src.core.archs.discriminator import MnistDiscriminator, CelebADiscriminator
+from src.core.archs.generator import MnistGenerator, CelebAGenerator
 
 
 def main():
@@ -17,12 +16,15 @@ def main():
                         help='(optional) choose from {}'.format(model_list))
     args = parser.parse_args()
 
-    mnist_dataset = MnistDataset(osp.join(DATA_DIR, 'mnist_train.csv'))
+    dataset = CelebADataset(osp.join(DATA_DIR, 'celeba_aligned_small.h5py'))
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    #d = archs.__dict__['MnistDiscriminator']
-    #g = archs.__dict__['MnistGenerator']
-    d = MnistDiscriminator()
-    g = MnistGenerator()
+    torch.set_default_tensor_type(torch.cuda.FloatTensor)
+
+    d = CelebADiscriminator()
+    g = CelebAGenerator()
+    d.to(device)
+    g.to(device)
 
     epochs = args.epoch
     start_epoch = 0
@@ -42,19 +44,16 @@ def main():
 
     for epoch in range(start_epoch, epochs):
         print("epoch = ", epoch + 1)
-        for label, image_data_tensor, label_tensor in tqdm(mnist_dataset):
+        for image_data_tensor in tqdm(dataset):
             # train discriminator on true
-            d.train(image_data_tensor, label_tensor, torch.FloatTensor([1.0]))
+            d.train(image_data_tensor, torch.cuda.FloatTensor([1.0]))
 
-            random_label = generate_random_one_hot(10)
             # train discriminator on false
             # use detach() so gradients in G are not calculated
-            d.train(g.forward(generate_random_seed(100), random_label).detach(), random_label, torch.FloatTensor([0.0]))
-
-            random_label = generate_random_one_hot(10)
+            d.train(g.forward(generate_random_seed(100)).detach(), torch.cuda.FloatTensor([0.0]))
 
             # train generator
-            g.train(d, generate_random_seed(100), random_label, torch.FloatTensor([1.0]))
+            g.train(d, generate_random_seed(100), torch.cuda.FloatTensor([1.0]))
 
         torch.save({'epoch': epoch,
                     'd_model': d.model.state_dict(),
